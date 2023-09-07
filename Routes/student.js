@@ -1,7 +1,7 @@
 import express from "express";
-import { Student } from "../models/student.js";
+import { Student } from "../mode/student.js";
 import mongoose from "mongoose";
-import { Mentor } from "../Models/mentors.js";
+import { Mentor } from "../mode/mentors.js";
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
 router.put("/changementor", async (req, res) => {
   try {
     const student1 = await Student.find({ _id: new ObjectId(req.body.id) });
-    console.log(student1);
+
     const student = await Student.findOneAndUpdate(
       { _id: new ObjectId(req.body.id) },
       {

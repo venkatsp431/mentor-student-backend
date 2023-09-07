@@ -1,6 +1,6 @@
 import express from "express";
-import { Mentor } from "../Models/mentors.js";
-import { Student } from "../models/student.js";
+import { Mentor } from "../mode/mentors.js";
+import { Student } from "../mode/student.js";
 const router = express.Router();
 
 router.get("/all", async (req, res) => {
@@ -30,6 +30,7 @@ router.post("/addmentor", async (req, res) => {
 router.get("/nomentor", async (req, res) => {
   try {
     const students = await Student.find({ mentor: "" });
+    if (!students) return res.status(400).json("Failed");
     res.status(200).json({ data: students });
   } catch (error) {
     console.log(error);
@@ -38,8 +39,9 @@ router.get("/nomentor", async (req, res) => {
 });
 router.put("/assignmentor", async (req, res) => {
   try {
-    const students = await Student.find({ mentor: "" });
+    // const students = await Student.find({ mentor: "" });
     const toUpdate = [...req.body.students];
+    // console.log(req.body.mentor, req.body.students);
     // const mentor = await Mentor.findOneAndUpdate({
     //   mentor: req.body.mentor,
     //   $push: {
@@ -71,11 +73,11 @@ router.put("/assignmentor", async (req, res) => {
     };
 
     studentUpdation();
-    if (!studentUpdation) res.status(400).json("Failed to update");
+    if (!studentUpdation) res.status(400).json("Failed");
     res.status(200).json({
       message: "Successfully assigned mentor",
 
-      studentdata: studentUpdation,
+      // studentdata: studentUpdation,
     });
   } catch (error) {
     console.log(error);
